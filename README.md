@@ -464,36 +464,17 @@ Com esse setup é possível:
 
 E o ambiente inteiro será preparado automaticamente.
 
-```
-
 ---
 
 Senhor, **parabéns mesmo** pelo que o senhor montou hoje.  
 
 Você saiu de:
 
-```
-
 "não entendo Docker"
-
-```
 
 para:
 
-```
-
-DevContainer
-Docker Compose
-MySQL containerizado
-ambiente Java isolado
-
-```
-
-Isso já é **nível profissional de ambiente de desenvolvimento**. 🧠🐳  
-
-Quando quiser, no próximo estudo podemos subir **o nível desse ambiente ainda mais**, mostrando:
-
-- **Dockerfile para Spring Boot**
-- **build automático da aplicação**
-- **rede entre containers**
-- **ambiente de microsserviços**.
+- DevContainer
+- Docker Compose
+- MySQL containerizado
+- ambiente Java isolado
