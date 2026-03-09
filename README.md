@@ -478,3 +478,74 @@ para:
 - Docker Compose
 - MySQL containerizado
 - ambiente Java isolado
+
+
+---
+
+## 📦 Instalação Guiada do Ambiente
+
+Para utilizar o ambiente de desenvolvimento configurado com Docker e DevContainer, siga os passos abaixo.
+
+### 1️⃣ Estrutura da pasta
+
+Primeiro, crie uma pasta chamada `.devcontainer` na raiz do projeto.
+
+A estrutura deverá ficar assim:
+
+```
+
+project-root
+│
+├── src
+├── pom.xml
+│
+└── .devcontainer
+├── devcontainer.json
+└── docker-compose.yml
+
+```
+
+Coloque dentro da pasta `.devcontainer` os arquivos disponibilizados neste repositório:
+
+- `devcontainer.json`
+- `docker-compose.yml`
+
+Esses arquivos são responsáveis por configurar o ambiente Docker que será aberto pelo VS Code.
+
+---
+
+### 2️⃣ Abrindo o ambiente no VS Code
+
+Depois de configurar a pasta `.devcontainer`:
+
+1. Abra o projeto no **VS Code**
+2. Pressione:
+
+```
+
+Ctrl + Shift + P
+
+```
+
+3. Digite:
+
+```
+
+Reopen in Container
+
+```
+
+4. Selecione a opção que o VS Code sugerir.
+
+---
+
+### 3️⃣ O que vai acontecer
+
+Ao executar **Reopen in Container**, o VS Code irá:
+
+- iniciar os containers definidos no `docker-compose.yml`
+- configurar automaticamente o ambiente de desenvolvimento
+- instalar as extensões necessárias
+- abrir o projeto dentro do container
+
+Após esse processo, o ambiente estará pronto para uso.

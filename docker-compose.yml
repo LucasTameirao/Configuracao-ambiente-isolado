@@ -1,0 +1,23 @@
+services:
+
+  dev:
+    image: maven:3.9-eclipse-temurin-21
+    volumes:
+      - ..:/workspace
+    command: sleep infinity
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ApisDB
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
