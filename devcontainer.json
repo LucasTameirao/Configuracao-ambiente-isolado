@@ -2,8 +2,10 @@
   "name": "java-dev",
   "dockerComposeFile": "docker-compose.yml",
   "service": "dev",
+  "runServices": ["mysql", "dev"],
   "workspaceFolder": "/workspace",
-  "forwardPorts": [3306],
+  "forwardPorts": [3306, 8080],
+  "shutdownAction": "stopCompose",
 
   "customizations": {
     "vscode": {
