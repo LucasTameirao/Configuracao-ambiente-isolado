@@ -549,3 +549,78 @@ Ao executar **Reopen in Container**, o VS Code irá:
 - abrir o projeto dentro do container
 
 Após esse processo, o ambiente estará pronto para uso.
+
+Com certeza! Ter um "guia de sobrevivência" no próprio repositório é o que salva o desenvolvedor às 3 da manhã. Vou estruturar a **Etapa 4** focada em produtividade e resolução de problemas comuns, para que você não perca tempo brigando com o Docker.
+
+Aqui está o conteúdo para o seu arquivo `.md`:
+
+---
+
+## 4️⃣ Guia de Sobrevivência e Operação Diária
+
+Agora que o ambiente está configurado, você precisa saber como operá-lo sem travar. O segredo do Docker é entender o ciclo de vida dos containers e como resetar o estado quando algo "vicia".
+
+### 🛠️ Comandos Essenciais (O Canivete Suíço)
+
+Sempre execute estes comandos na raiz do projeto (onde está o `docker-compose.yml`):
+
+| Comando | O que faz? | Quando usar? |
+| :--- | :--- | :--- |
+| `docker compose up -d` | Liga o ambiente em segundo plano. | No início do expediente. |
+| `docker compose stop` | Desliga os containers (mantém tudo salvo). | Ao terminar o dia ou pausar o trabalho. |
+| `docker compose logs -f mysql` | Mostra o log do banco em tempo real. | Se o Spring Boot não conseguir conectar. |
+| `docker compose ps` | Lista os containers e seus status. | Para saber se o banco está `Up` ou se deu erro. |
+| `docker compose restart dev` | Reinicia apenas o container do Java. | Se o Maven travar ou precisar recarregar algo. |
+
+---
+
+### 🚨 "Deu erro e não sei o que fazer" (Reset de Emergência)
+
+Às vezes, o MySQL ou o Maven podem entrar em um estado de erro persistente (cache corrompido, mudança de senha que não aplicou, etc).
+
+**1. Reset Leve (Mantém os dados):**
+Remove os containers e recria-os, mas preserva suas tabelas e registros.
+```bash
+docker compose down && docker compose up -d
+```
+
+**2. Reset Total (Apaga TUDO):**
+CUIDADO: Isso apaga todas as tabelas e dados do banco. Útil se você mudou o `MYSQL_DATABASE` ou `MYSQL_ROOT_PASSWORD` no arquivo YAML.
+```bash
+docker compose down -v && docker compose up -d
+```
+
+---
+
+### ☕ Fluxo de Trabalho com Spring Boot
+
+Dentro do VS Code (conectado ao container `dev`):
+
+1.  **Instalar dependências:** O Maven vai baixar tudo na primeira vez. Se der erro de biblioteca, tente:
+    ```bash
+    mvn clean install
+    ```
+2.  **Rodar a aplicação:**
+    ```bash
+    mvn spring-boot:run
+    ```
+3.  **Conexão com o Banco:** Lembre-se que para o Spring Boot (dentro do Docker), o host do banco é `mysql`. No seu `application.properties`:
+    ```properties
+    spring.datasource.url=jdbc:mysql://mysql:3306/condosmart?allowPublicKeyRetrieval=true&useSSL=false
+    spring.datasource.username=root
+    spring.datasource.password=root
+    ```
+
+---
+
+### 💡 Dicas de Mestre
+
+* **Persistência:** Pode fechar o VS Code e desligar o PC. Se você usou apenas `stop` ou `down` (sem o `-v`), suas tabelas criadas via DBeaver ou Hibernate continuarão lá.
+* **DBeaver:** Para conectar sua ferramenta externa, o host continua sendo `localhost`, pois a porta `3306` está "tunelada" do container para sua máquina real.
+* **Saúde do Banco:** O MySQL demora cerca de 15-20 segundos para aceitar conexões após o `up`. Se o Spring Boot falhar de primeira, espere um pouco e tente rodar o comando novamente.
+
+---
+
+**Uma última dica para o seu "canivete":** Se você notar que o container `dev` está muito lento, verifique se não há muitos processos Java pendentes com um `top` no terminal do container. 
+
+Ficou faltando algum cenário que você costuma enfrentar no seu fluxo de trabalho?
