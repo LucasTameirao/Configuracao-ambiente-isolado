@@ -1,10 +1,9 @@
 {
-  "name": "java-dev",
+  "name": "condosmart-dev",
   "dockerComposeFile": "docker-compose.yml",
   "service": "dev",
-  "runServices": ["mysql", "dev"],
   "workspaceFolder": "/workspace",
-  "forwardPorts": [3306, 8080],
+
   "shutdownAction": "stopCompose",
 
   "customizations": {
@@ -12,8 +11,20 @@
       "extensions": [
         "vscjava.vscode-java-pack",
         "vmware.vscode-spring-boot",
-        "ms-azuretools.vscode-docker"
-      ]
+        "Pivotal.vscode-spring-boot",
+        "ms-azuretools.vscode-docker",
+        "dracula-theme.theme-dracula",
+        "vmware.vscode-boot-dev-pack"
+      ],
+      "settings": {
+        "workbench.colorTheme": "Dracula Official"
+      }
     }
-  }
+  },
+
+  "forwardPorts": [8080],
+
+  "postCreateCommand": "mvn -q -e -DskipTests clean install",
+
+  "postStartCommand": "echo '🚀 Ambiente pronto! MySQL rodando e conectado.'"
 }
